@@ -22,7 +22,7 @@ def postman_request(method: str, endpoint: str, key: str, payload: dict = None, 
 
 def get_collections(collection_name: str, key: str):
     collections = postman_request("GET", "/collections", key)
-    return [c for c in collections['collections'] if c['name'].lower() == collection_name]
+    return [c for c in collections['collections'] if c['name'].lower() == collection_name.lower()]
 
 
 def get_collection_for_branch(collections: list[dict], branch: str):
