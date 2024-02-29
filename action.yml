@@ -1,27 +1,26 @@
-
-name: 'Get Postman Collection'
-description: 'Get postman collection by name (and fork).'
+name: Get Postman Collection
+description: Get postman collection by name (and fork).
 branding:
-  icon: 'arrow-down'  
-  color: 'orange'
+  icon: arrow-down
+  color: orange
 inputs:
   postman-key:
-    description: 'Postman API key'
+    description: Postman API key
     required: true
   collection-name:
-    description: 'Name of the Postman collection'
+    description: Name of the Postman collection
     required: true
   collection-fork:
-    description: 'Name of the Postman fork. If equal to the repository's main branch or null, then the original collection is used.'
+    description: Name of the Postman fork. If equal to the repository's main branch or null, then the original collection is used.
     required: false
   export-output:
-    description: 'Path to the postman collection export'
+    description: Path to the postman collection export
     required: false
-    default: 'postman.json'
+    default: postman.json
     
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: docker
+  image: Dockerfile
   args:
     - ${{ inputs.collection-name }}
     - ${{ inputs.postman-key }}
