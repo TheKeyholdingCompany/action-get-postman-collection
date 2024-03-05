@@ -26,13 +26,14 @@ def get_collections(collection_name: str, key: str):
 
 
 def get_collection_for_branch(collections: list[dict], branch: str):
-    main_collection = [c for c in collections if 'fork' not in c]
+    main_collection = sorted([c for c in collections if 'fork' not in c], key=lambda c: c['updatedAt'], reverse=True)
     if not main_collection:
         print("ERROR: Unable to find main collection. Using first collection.")
         raise Exception("Unable to find main collection")
     _collections = [c for c in collections if 'fork' in c and c['fork']['label'] == branch]
     if not _collections:
-        print(f"WARN: Unable to find collection for {branch}. Using main collection.")
+        if branch != "main":
+            print(f"WARN: Unable to find collection for {branch}. Using main collection.")
         return main_collection[0]
     return _collections[0]
 
@@ -55,5 +56,6 @@ if __name__ == '__main__':
         print(f"Collection {COLLECTION_NAME} not found")
         sys.exit(1)
     collection = get_collection_for_branch(all_collections, BRANCH)
+    print(collection)
     export_collection(collection['uid'], OUTPUT_PATH, POSTMAN_KEY)
     print(f"Collection {COLLECTION_NAME} exported to {OUTPUT_PATH}")
