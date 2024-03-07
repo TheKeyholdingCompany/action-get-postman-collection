@@ -24,13 +24,16 @@ def get_collections(collection_name: str, key: str):
     collections = postman_request("GET", "/collections", key)
     return [c for c in collections['collections'] if c['name'].lower() == collection_name.lower()]
 
+def sort_collection(collection):
+    return sorted(collection, key=lambda c: c['updatedAt'], reverse=True)
+
 
 def get_collection_for_branch(collections: list[dict], branch: str):
-    main_collection = sorted([c for c in collections if 'fork' not in c], key=lambda c: c['updatedAt'], reverse=True)
+    main_collection = sort_collection([c for c in collections if 'fork' not in c])
     if not main_collection:
         print("ERROR: Unable to find main collection. Using first collection.")
         raise Exception("Unable to find main collection")
-    _collections = [c for c in collections if 'fork' in c and c['fork']['label'] == branch]
+    _collections = sort_collection([c for c in collections if 'fork' in c and c['fork']['label'] == branch])
     if not _collections:
         if branch != "main":
             print(f"WARN: Unable to find collection for {branch}. Using main collection.")
