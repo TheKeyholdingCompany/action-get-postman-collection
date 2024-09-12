@@ -13,7 +13,7 @@ const getSchema = (schema, urlPath, requestMethod) => {
 }
 
 const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope) => {
-    const doSchema = isEnvelope ? getEnvelopedSchema : s=>s;
+    const doSchema = isEnvelope ? envelopeSchema : s=>s;
     const doListSchema = isEnvelope ? listEnvelopeSchema : listSchema;
     const doDeleteSchema = isEnvelope ? deleteEnvelopeSchema : deleteSchema;
 
