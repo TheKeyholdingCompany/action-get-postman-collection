@@ -8,7 +8,7 @@ For example, if your branch is `123-do-the-thing` and your postman collection wa
 
 ```yml
 - name: Get Postman Collection
-  uses: TheKeyholdingCompany/action-get-postman-collection@0.0.10
+  uses: TheKeyholdingCompany/action-get-postman-collection@0.1.0
   with:
     postman-key: your-key-here
     collection-name: Awesome API Collection
