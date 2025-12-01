@@ -4,11 +4,7 @@ import json
 import http.client
 from pathlib import Path
 
-BOILERPLATE = """// Once exported, use this statement in your scripts to use the package:
-// const bedrockTestHelpers = pm.require('@keyholding/bedrock-test-helpers');
-// const schema = bedrockTestHelpers.getEnvelopedSchema({"type": "object"}, pm.request.url.path, pm.request.method);
-
-const getEnvelopedSchema = (schema, urlPath, requestMethod, forcedPayloadReturnType) => {
+BOILERPLATE = """const getEnvelopedSchema = (schema, urlPath, requestMethod, forcedPayloadReturnType) => {
     return getSchemaGeneric(schema, urlPath, requestMethod, true, forcedPayloadReturnType);
 };
 
@@ -139,6 +135,13 @@ const errorsSchema = () => {
             }
         }
     }
+};
+
+const bedrockTestHelpers = {
+    getEnvelopedSchema,
+    getSchema,
+    errorsEnvelopeSchema,
+    errorsSchema
 };"""
 
 BOILERPLATE = [f'"{line.replace('"', '\\"')}",' for line in BOILERPLATE.split("\n")]
