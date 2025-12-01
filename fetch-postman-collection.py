@@ -4,20 +4,24 @@ import json
 import http.client
 from pathlib import Path
 
-BOILERPLATE = """const getEnvelopedSchema = (schema, urlPath, requestMethod) => {
-    return getSchemaGeneric(schema, urlPath, requestMethod, true);
+BOILERPLATE = """// Once exported, use this statement in your scripts to use the package:
+// const bedrockTestHelpers = pm.require('@keyholding/bedrock-test-helpers');
+// const schema = bedrockTestHelpers.getEnvelopedSchema({"type": "object"}, pm.request.url.path, pm.request.method);
+
+const getEnvelopedSchema = (schema, urlPath, requestMethod, forcedPayloadReturnType) => {
+    return getSchemaGeneric(schema, urlPath, requestMethod, true, forcedPayloadReturnType);
 };
 
-const getSchema = (schema, urlPath, requestMethod) => {
-    return getSchemaGeneric(schema, urlPath, requestMethod, false);
+const getSchema = (schema, urlPath, requestMethod, forcedPayloadReturnType) => {
+    return getSchemaGeneric(schema, urlPath, requestMethod, false, forcedPayloadReturnType);
 }
 
-const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope) => {
+const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope, forcedPayloadReturnType) => {
     const doSchema = isEnvelope ? envelopeSchema : s=>s;
     const doListSchema = isEnvelope ? listEnvelopeSchema : listSchema;
     const doDeleteSchema = isEnvelope ? deleteEnvelopeSchema : deleteSchema;
 
-    const isListRequest = urlIsListRequest(urlPath);
+    const isListRequest = urlIsListRequest(urlPath, forcedPayloadReturnType);
     if(requestMethod === "GET" && isListRequest){
         return doListSchema(schema);
     }
@@ -27,7 +31,10 @@ const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope) => {
     return doSchema(schema);
 }
 
-const urlIsListRequest = (urlPath) => {
+const urlIsListRequest = (urlPath, forcedPayloadReturnType) => {
+    if (forcedPayloadReturnType && ["list", "object"].includes(forcedPayloadReturnType)){
+        return forcedPayloadReturnType;
+    }
     const lastPathItem = urlPath[urlPath.length-1];
     // if the URL doesn't end with a UUID
     return !/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(lastPathItem);
@@ -132,14 +139,6 @@ const errorsSchema = () => {
             }
         }
     }
-};
-
-
-const bedrockTestHelpers = {
-    getEnvelopedSchema,
-    getSchema,
-    errorsEnvelopeSchema,
-    errorsSchema
 };"""
 
 BOILERPLATE = [f'"{line.replace('"', '\\"')}",' for line in BOILERPLATE.split("\n")]
