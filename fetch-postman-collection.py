@@ -16,9 +16,14 @@ const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope, forcedPayl
     const doSchema = isEnvelope ? envelopeSchema : s=>s;
     const doListSchema = isEnvelope ? listEnvelopeSchema : listSchema;
     const doDeleteSchema = isEnvelope ? deleteEnvelopeSchema : deleteSchema;
+    
+    if(forcedPayloadReturnType === "object"){
+        return doSchema(schema);
+    }
 
-    const isListRequest = urlIsListRequest(urlPath, forcedPayloadReturnType);
-    if(requestMethod === "GET" && isListRequest){
+    const isListRequest = urlIsListRequest(urlPath);
+
+    if((forcedPayloadReturnType === "list") || (requestMethod === "GET" && isListRequest)){
         return doListSchema(schema);
     }
     if(requestMethod === "DELETE"){
@@ -27,10 +32,7 @@ const getSchemaGeneric = (schema, urlPath, requestMethod, isEnvelope, forcedPayl
     return doSchema(schema);
 }
 
-const urlIsListRequest = (urlPath, forcedPayloadReturnType) => {
-    if (forcedPayloadReturnType && ["list", "object"].includes(forcedPayloadReturnType)){
-        return forcedPayloadReturnType;
-    }
+const urlIsListRequest = (urlPath) => {
     const lastPathItem = urlPath[urlPath.length-1];
     // if the URL doesn't end with a UUID
     return !/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(lastPathItem);
