@@ -63,6 +63,32 @@ const envelopeSchema = (schema) => {
                         }
                     }
                 }
+            },
+            "_errors": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["message", "originalException"],
+                    "properties": {
+                        "error": {"type": "string"},
+                        "message": {"type": "string"},
+                        "originalException": {"type": "string"}
+                    }
+                }
+            },
+            "_warnings": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["message", "originalException"],
+                    "properties": {
+                        "error": {"type": "string"},
+                        "message": {"type": "string"},
+                        "originalException": {"type": "string"}
+                    }
+                }
             }
         }
     }
