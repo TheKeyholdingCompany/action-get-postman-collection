@@ -42,7 +42,7 @@ const envelopeSchema = (schema) => {
     return {
         "type": "object",
         "additionalProperties": false,
-        "required": ["data", "_metadata"],
+        "required": ["data", "originalData", "_metadata"],
         "properties": {
             "data": schema,
             "originalData": {
