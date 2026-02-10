@@ -140,7 +140,6 @@ const deleteSchema = (schema) => {
     }
 }
 
-
 const errorsEnvelopeSchema = () => {
     return {
         "type": "object",
