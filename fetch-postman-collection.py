@@ -75,10 +75,12 @@ const envelopeSchema = (schema) => {
                 "items": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["message", "originalException"],
+                    "required": ["code", "error", "message", "exception", "originalException"],
                     "properties": {
+                        "code": {"type": "number"},
                         "error": {"type": "string"},
                         "message": {"type": "string"},
+                        "exception": {"type": "string"},
                         "originalException": {"type": "string"}
                     }
                 }
@@ -88,10 +90,12 @@ const envelopeSchema = (schema) => {
                 "items": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["message", "originalException"],
+                    "required": ["code", "error", "message", "exception", "originalException"],
                     "properties": {
+                        "code": {"type": "number"},
                         "error": {"type": "string"},
                         "message": {"type": "string"},
+                        "exception": {"type": "string"},
                         "originalException": {"type": "string"}
                     }
                 }
