@@ -42,9 +42,15 @@ const envelopeSchema = (schema) => {
     return {
         "type": "object",
         "additionalProperties": false,
-        "required": ["data", "_metadata"],
+        "required": ["data", "originalData", "_metadata"],
         "properties": {
             "data": schema,
+            "originalData": {
+                "anyOf": [
+                    schema,
+                    { "type": "null" }
+                ]
+            },
             "_metadata": {
                 "type": "object",
                 "additionalProperties": false,
@@ -69,10 +75,12 @@ const envelopeSchema = (schema) => {
                 "items": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["message", "originalException"],
+                    "required": ["code", "error", "message", "exception", "originalException"],
                     "properties": {
+                        "code": {"type": "string"},
                         "error": {"type": "string"},
                         "message": {"type": "string"},
+                        "exception": {"type": "string"},
                         "originalException": {"type": "string"}
                     }
                 }
@@ -82,10 +90,12 @@ const envelopeSchema = (schema) => {
                 "items": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["message", "originalException"],
+                    "required": ["code", "error", "message", "exception", "originalException"],
                     "properties": {
+                        "code": {"type": "string"},
                         "error": {"type": "string"},
                         "message": {"type": "string"},
+                        "exception": {"type": "string"},
                         "originalException": {"type": "string"}
                     }
                 }
@@ -109,11 +119,12 @@ const deleteEnvelopeSchema = (schema) => {
     return {
         "type": "object",
         "additionalProperties": false,
-        "required": ["data", "deleted", "originalObject"],
+        "required": ["data", "deleted", "originalObject", "originalData"],
         "properties": {
             "deleted": {"type": "boolean"},
             "data": {"type": "null"},
             "originalObject": schema,
+            "originalData": schema,
             "message": {"type": "string"}
         }
     }
@@ -123,10 +134,11 @@ const deleteSchema = (schema) => {
     return {
         "type": "object",
         "additionalProperties": false,
-        "required": ["deleted", "originalObject"],
+        "required": ["deleted", "originalObject", "originalData"],
         "properties": {
             "deleted": {"type": "boolean"},
             "originalObject": schema,
+            "originalData": schema,
             "message": {"type": "string"}
         }
     }
