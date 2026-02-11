@@ -247,4 +247,6 @@ if __name__ == "__main__":
     collection = get_collection_for_branch(all_collections, BRANCH)
     print(collection)
     export_collection(collection["uid"], OUTPUT_PATH, POSTMAN_KEY)
+    #set GITHUB_OUTPUT environment variable for collection uuid
+    os.environ["GITHUB_OUTPUT"]=f"collection-uuid={collection['uid']}"
     print(f"Collection {COLLECTION_NAME} exported to {OUTPUT_PATH}")

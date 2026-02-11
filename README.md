@@ -8,11 +8,14 @@ For example, if your branch is `123-do-the-thing` and your postman collection wa
 
 ```yml
 - name: Get Postman Collection
-  uses: TheKeyholdingCompany/action-get-postman-collection@0.1.2
+  id: get-postman-collection
+  uses: TheKeyholdingCompany/action-get-postman-collection@0.1.4
   with:
     postman-key: your-key-here
     collection-name: Awesome API Collection
     collection-fork: 123-do-the-thing
+- name: Postman Collection UUID
+  run: echo "Collection UUID: ${{ steps.get-postman-collection.outputs.collection-uuid }}"
 ```
 
 If the fork doesn't exist in postman, then the action will default to the main collection.

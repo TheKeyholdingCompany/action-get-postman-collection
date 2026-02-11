@@ -17,7 +17,10 @@ inputs:
     description: Path to the postman collection export
     required: false
     default: postman.json
-    
+outputs:
+  collection-uuid:
+    description: The UUID of the collection that was exported
+
 runs:
   using: docker
   image: Dockerfile
