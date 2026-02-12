@@ -231,9 +231,12 @@ def export_collection(collection_id: str, path: str, key: str):
             lines.extend(BOILERPLATE)
         else:
             lines.append(line)
-    with open(path, "w") as f:
-        f.write("\n".join(lines))
+    save_content_to_file(path, "\n".join(lines))
 
+
+def save_content_to_file(filepath: str, content: str):
+    with open(filepath, "w") as f:
+        f.write(content)
 
 if __name__ == "__main__":
     COLLECTION_NAME = sys.argv[1]
@@ -247,6 +250,5 @@ if __name__ == "__main__":
     collection = get_collection_for_branch(all_collections, BRANCH)
     print(collection)
     export_collection(collection["uid"], OUTPUT_PATH, POSTMAN_KEY)
-    #set GITHUB_OUTPUT environment variable for collection uuid
-    os.environ["GITHUB_OUTPUT"]=f"collection-uuid={collection['uid']}"
+    save_content_to_file("./collection-uuid.out", f"collection-uuid={collection['uid']}")
     print(f"Collection {COLLECTION_NAME} exported to {OUTPUT_PATH}")
