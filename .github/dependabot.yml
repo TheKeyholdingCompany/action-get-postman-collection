@@ -8,3 +8,6 @@ updates:
       docker-deps:
         patterns: ["*"]
         update-types: ["patch", "minor", "major"]
+    cooldown:
+      default-days: 3
+      semver-major-days: 14
